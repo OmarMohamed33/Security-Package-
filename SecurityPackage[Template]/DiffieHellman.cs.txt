@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SecurityLibrary.DiffieHellman
+{
+    public class DiffieHellman 
+    {
+        public int pow(int a, int b, int c)
+        {
+            int res = 1;
+            int i = 0;
+            while(true)
+            {
+                if (i < b)
+                {
+                    res = (res * a) % c;
+                    i++;
+                }
+                else break;
+            }
+            return res;
+        }
+        public List<int> GetKeys(int q, int alpha, int xa, int xb)
+        {
+            int ya = pow(alpha, xa, q);
+            int yb = pow(alpha, xb, q);
+            int k1 = pow(yb, xa, q);
+            int k2 = pow(ya, xb, q);
+
+            List<int> res = new List<int>();
+            res.Add(k1);
+            res.Add(k2);
+
+            return res;
+        }
+    }
+}

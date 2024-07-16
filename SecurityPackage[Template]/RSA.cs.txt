@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SecurityLibrary.RSA
+{
+    public class RSA
+    {
+        public int power(int a, int b, int c)
+        {
+            int result = 1;
+            int i = 0;
+            while (i < b)
+            {
+                result = (result * a) % c;
+                i++;
+            }
+            return result;
+        }
+        public int modInverse(int a, int n)
+        {
+            int i = n, v = 0, b = 1;
+            while (true)
+            {
+                if (a > 0)
+                {
+                    int t = i / a, x = a;
+                    a = i % x;
+                    i = x;
+                    x = b;
+                    b = v - t * x;
+                    v = x;
+                }
+                else
+                    break;
+            }
+            v %= n;
+            if (v < 0)
+            {
+                v = (v + n) % n;
+            }
+
+            return v;
+        }
+        public int Encrypt(int p, int q, int M, int e)
+        {
+            int n = p * q;
+            int en = power(M, e, n) % n;
+            return en;
+            
+        }
+
+        public int Decrypt(int p, int q, int C, int e)
+        {
+            int n2 = p * q;
+            int n = (p - 1) * (q - 1);
+            e = modInverse(e, n);
+            int cd = power(C, e, n2);
+            return cd;
+            //throw new NotImplementedException();
+        }
+    }
+}
